@@ -1,17 +1,23 @@
 { pkgs, config, ... }: {
   services = {
     # Enable the GNOME Desktop Environment.
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+
 
     xserver = {
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
       # Enable the X11 windowing system.
       enable = true;
-      excludePackages = [ pkgs.xterm ];
+      excludePackages = with pkgs; [
+        xterm
+      ];
     };
   };
 
-
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany # Browser
+    gnome-tour # Tour
+  ];
 
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 

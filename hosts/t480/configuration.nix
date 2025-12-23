@@ -45,11 +45,11 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  #services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  #services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
   environment.systemPackages = with pkgs; [
@@ -71,6 +71,7 @@
     vesktop
     rpi-imager
     keepassxc
+    nextcloud-client
 
     # Nix Home Manager
     home-manager
@@ -152,8 +153,6 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
   
-  virtualisation.docker.enable = true;
-
   fileSystems."/mnt/share" = {
     device = "//192.168.178.29/home";
     fsType = "cifs";

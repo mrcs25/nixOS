@@ -5,6 +5,8 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
+      #useGlobalPkgs = true;
+      #users.tilt = import ./users/marcus/home.nix;
       url = github:nix-community/home-manager;
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -27,6 +29,9 @@
             ./hosts/t480/configuration.nix
             nixos-hardware.nixosModules.lenovo-thinkpad-t480
             ./modules/system/docker.nix
+            ./modules/system/nextcloud.nix
+            ./modules/system/netbird.nix
+            ./modules/system/gnome.nix
           ];
         };
       };
