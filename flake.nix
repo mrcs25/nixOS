@@ -41,7 +41,7 @@
             ./modules/user/vscode.nix
             ./modules/system/gnome.nix
             ./modules/system/docker.nix
-            ./modules/system/netbird.nix
+            ./modules/user/nextcloud-client.nix
           ];
         };
       };
