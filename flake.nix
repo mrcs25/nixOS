@@ -29,7 +29,6 @@
             ./hosts/t480/configuration.nix
             nixos-hardware.nixosModules.lenovo-thinkpad-t480
             ./modules/system/docker.nix
-            ./modules/system/nextcloud.nix
             ./modules/system/netbird.nix
             ./modules/system/gnome.nix
           ];
