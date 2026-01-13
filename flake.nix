@@ -43,9 +43,7 @@
             ./users/marcus/shell.nix
             ./modules/user/git.nix
             ./modules/user/vscode.nix
-            ./modules/system/gnome.nix
-            ./modules/system/docker.nix
-            ./modules/user/nextcloud-client.nix
+            ./users/marcus/gnome.nix
           ];
         };
       };
