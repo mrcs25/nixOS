@@ -39,6 +39,7 @@
             ./users/marcus/shell.nix
             ./modules/user/git.nix
             ./modules/user/vscode.nix
+            ./modules/system/gnome.nix
             ./modules/system/docker.nix
             ./modules/system/netbird.nix
           ];
