@@ -14,6 +14,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.supportedFilesystems = [ "ntfs" ];
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -43,11 +45,37 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  #services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  #services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
+  environment.systemPackages = with pkgs; [
+    # LibreOffice
+    libreoffice-qt
+
+    # Tools
+    git
+    vim
+    wget
+    curl
+    cifs-utils
+
+    # UI applications
+    google-chrome
+    firefox
+    spotify
+    calls
+    vesktop
+    rpi-imager
+    keepassxc
+    nextcloud-client
+
+    # Nix Home Manager
+    home-manager
+  ];
 
   # Configure keymap in X11
   services.xserver = {
@@ -81,13 +109,12 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.nixuser = {
+  users.users.marcus = {
     isNormalUser = true;
-    description = "NixUser";
+    description = "Marcus";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
+    shell = pkgs.zsh;
+
   };
 
   # Install firefox.
@@ -96,21 +123,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    git
-    curl
-    vscode
-    google-chrome
-    rpi-imager
-    vesktop
-    keepassxc
-  ];
+  programs.zsh.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -124,7 +137,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.settings.PasswordAuthentication = true;
+  #services.openssh.settings.PasswordAuthentication = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -140,6 +153,20 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
   
-  virtualisation.docker.enable = true;
+  fileSystems."/mnt/share" = {
+    device = "//192.168.178.29/home";
+    fsType = "cifs";
+    options = let
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,vers=2.0";
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
+  };
+
+  fileSystems."/mnt/resilio" = {
+    device = "//192.168.178.29/resilio";
+    fsType = "cifs";
+    options = let
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,vers=2.0";
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
+  };
 
 }
